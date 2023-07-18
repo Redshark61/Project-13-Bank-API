@@ -5,6 +5,7 @@
   "description": "Project #10 - Argent Bank",
   "keywords": [],
   "author": "",
+  "type": "module",
   "license": "",
   "main": "index.js",
   "dependencies": {

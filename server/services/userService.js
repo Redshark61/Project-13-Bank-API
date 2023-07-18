@@ -1,8 +1,8 @@
-const User = require('../database/models/userModel')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+import User from "../database/models/userModel.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-module.exports.createUser = async serviceData => {
+const createUser = async serviceData => {
   try {
     const user = await User.findOne({ email: serviceData.email })
     if (user) {
@@ -18,16 +18,14 @@ module.exports.createUser = async serviceData => {
       lastName: serviceData.lastName
     })
 
-    let result = await newUser.save()
-
-    return result
+    return await newUser.save()
   } catch (error) {
     console.error('Error in userService.js', error)
     throw new Error(error)
   }
 }
 
-module.exports.getUserProfile = async serviceData => {
+const getUserProfile = async serviceData => {
   try {
     const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
     const decodedJwtToken = jwt.decode(jwtToken)
@@ -44,7 +42,7 @@ module.exports.getUserProfile = async serviceData => {
   }
 }
 
-module.exports.loginUser = async serviceData => {
+const loginUser = async serviceData => {
   try {
     const user = await User.findOne({ email: serviceData.email })
 
@@ -71,7 +69,7 @@ module.exports.loginUser = async serviceData => {
   }
 }
 
-module.exports.updateUserProfile = async serviceData => {
+const updateUserProfile = async serviceData => {
   try {
     const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
     const decodedJwtToken = jwt.decode(jwtToken)
@@ -93,4 +91,11 @@ module.exports.updateUserProfile = async serviceData => {
     console.error('Error in userService.js', error)
     throw new Error(error)
   }
+}
+
+export default {
+    createUser,
+    loginUser,
+    getUserProfile,
+    updateUserProfile,
 }

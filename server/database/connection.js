@@ -1,7 +1,11 @@
-const mongoose = require('mongoose')
-require('dotenv').config()
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
 const databaseUrl = process.env.DATABASE_URL || 'mongodb://localhost/argentBankDB'
-module.exports = async () => {
+
+export default async () => {
   try {
     await mongoose.connect(databaseUrl, { useNewUrlParser: true })
     console.log('Database successfully connected')
