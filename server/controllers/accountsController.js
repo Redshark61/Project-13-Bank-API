@@ -17,6 +17,24 @@ const getUserAccounts = async (req, res) => {
   return res.status(response.status).send(response)
 }
 
+const getUserTransactions = async (req, res) => {
+  let response = {}
+
+  try {
+    const responseFromService = await accountsService.getUserTransactions(req)
+    response.status = 200
+    response.message = 'Successfully got user transactions'
+    response.body = responseFromService
+  } catch (error) {
+    console.log('Error in userController.js')
+    response.status = error.type
+    response.message = error.message
+  }
+
+  return res.status(response.status).send(response)
+}
+
 export default {
-    getUserAccounts
+    getUserAccounts,
+    getUserTransactions
 }

@@ -8,5 +8,10 @@ router.get(
     tokenValidation,
     accountsController.getUserAccounts
 )
+router.get(
+    '/transactions',
+    tokenValidation,
+    accountsController.getUserTransactions
+)
 
 export default router

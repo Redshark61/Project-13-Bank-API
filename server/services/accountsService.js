@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../database/models/userModel.js";
 import Accounts from "../database/models/accountsModel.js";
+import Transactions from "../database/models/transactionModel.js";
 
 const getUserAccounts = async serviceData => {
     try {
@@ -18,6 +19,17 @@ const getUserAccounts = async serviceData => {
     }
 };
 
+const getUserTransactions = async serviceData => {
+    try {
+        const account_id = serviceData.query.account_id;
+        return await Transactions.findOne({parent_id: account_id}).populate("history");
+    } catch (error) {
+        console.error("Error in userService.js getUserTransactions", error);
+        throw {message: "An error occurred while getting user transactions!: " + error.message, type: 500};
+    }
+}
+
 export default {
-    getUserAccounts
+    getUserAccounts,
+    getUserTransactions
 }
