@@ -83,7 +83,49 @@ paths:
           description: Unauthorized
         '500':
           description: Internal Server Error
+    patch:
+      security:
+        - Bearer: [ ]
+      tags:
+        - User Module
+      summary: Update Transaction
+      description: Updates the category_id and notes of a transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Update Transaction Request. If either category_id or notes is not provided, the existing value will be used.
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateTransactionRequest'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
 definitions:
+  UpdateTransactionRequest:
+    type: object
+    properties:
+      category_id:
+        type: string
+      notes:
+        type: string
   Account:
     type: object
     properties:
