@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express'
 import yaml from 'yamljs'
 import dbConnection from './database/connection.js'
 import userRouter from './routes/userRoutes.js'
+import accountRouter from './routes/accountRoutes.js'
 
 const swaggerTransactionDocs = yaml.load('./swagger-transaction.yaml')
 const swaggerDocs = yaml.load('./swagger.yaml')
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // Handle custom routes
 app.use('/api/v1/user', userRouter)
+app.use('/api/v1/account', accountRouter)
 
 // API Documentation
 if (process.env.NODE_ENV !== 'production') {
