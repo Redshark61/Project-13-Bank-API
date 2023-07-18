@@ -1,0 +1,128 @@
+swagger: '2.0'
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints to reach get transaction data
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/accounts:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Get User Accounts
+      description: Retrieves the user's accounts
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Account'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /categories:
+    get:
+      summary: Get Categories
+      description: Retrieves the list of categories
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+        '500':
+          description: Internal Server Error
+  /user/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Get Transactions
+      description: Retrieves the list of transactions
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+          type: string
+        - in: query
+          name: account_id
+          description: Account ID
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TransactionHistory'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+definitions:
+  Account:
+    type: object
+    properties:
+      title:
+        type: string
+      number_of_transactions:
+        type: integer
+      balance:
+        type: number
+      currency:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+  Category:
+    type: object
+    properties:
+      objectID:
+        type: string
+  TransactionHistory:
+    type: object
+    properties:
+      date:
+        type: string
+        format: date
+      description:
+        type: string
+      amount:
+        type: number
+      currency:
+        type: string
+      type:
+        type: string
+      balance:
+        type: number
+      notes:
+        type: string
+      category_id:
+        type: string
+      transactionType:
+        type: string
