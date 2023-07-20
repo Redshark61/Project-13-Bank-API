@@ -13,5 +13,9 @@ router.get(
     tokenValidation,
     accountsController.getUserTransactions
 )
+router.get(
+    '/categories',
+    accountsController.getCategories
+)
 
 export default router

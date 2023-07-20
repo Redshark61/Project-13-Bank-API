@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../database/models/userModel.js";
 import Accounts from "../database/models/accountsModel.js";
 import Transactions from "../database/models/transactionModel.js";
+import CategoriesModel from "../database/models/categoriesModel.js";
 
 const getUserAccounts = async serviceData => {
     try {
@@ -29,7 +30,17 @@ const getUserTransactions = async serviceData => {
     }
 }
 
+const getCategories = async serviceData => {
+    try {
+        return await CategoriesModel.find({});
+    } catch (error) {
+        console.error("Error in userService.js getCategories", error);
+        throw {message: "An error occurred while getting categories!: " + error.message, type: 500};
+    }
+}
+
 export default {
     getUserAccounts,
-    getUserTransactions
+    getUserTransactions,
+    getCategories
 }

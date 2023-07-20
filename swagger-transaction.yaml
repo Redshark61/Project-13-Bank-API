@@ -102,8 +102,10 @@ definitions:
   Category:
     type: object
     properties:
-      objectID:
+      _id:
         type: string
+      name:
+          type: string
   TransactionHistory:
     type: object
     properties:
