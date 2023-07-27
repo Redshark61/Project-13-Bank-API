@@ -39,8 +39,32 @@ const getCategories = async serviceData => {
     }
 }
 
+const patchCategories = async serviceData => {
+    try {
+        const jwtToken = serviceData.headers.authorization.split("Bearer")[1].trim();
+        const decodedJwtToken = jwt.decode(jwtToken);
+        const user = await User.findOne({_id: decodedJwtToken.id});
+        if (!user) {
+            throw {message: "No user found for the given token!", type: 401};
+        }
+
+        const {category_id, transaction_id, history_index} = serviceData.body;
+        const history = await Transactions.findOne({_id: transaction_id}).populate("history");
+        if (!history) {
+            throw {message: "No transaction found for the given id!", type: 404};
+        }
+
+
+
+    } catch (error) {
+        console.error("Error in userService.js patchCategories", error);
+        throw {message: "An error occurred while patching categories!: " + error.message, type: 500};
+    }
+}
+
 export default {
     getUserAccounts,
     getUserTransactions,
-    getCategories
+    getCategories,
+    patchCategories
 }

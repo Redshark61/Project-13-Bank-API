@@ -17,5 +17,10 @@ router.get(
     '/categories',
     accountsController.getCategories
 )
+router.patch(
+    '/transactions/categories',
+    tokenValidation,
+    accountsController.patchCategories
+)
 
 export default router
