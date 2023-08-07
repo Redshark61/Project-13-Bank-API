@@ -61,7 +61,90 @@ paths:
             '200':
               description: Successful operation
               schema:
-                $ref: '#/definitions/CreateAccountResponse'
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/definitions/CreateAccountResponse'
+            '400':
+              description: Bad Request
+            '401':
+              description: Unauthorized
+            '500':
+              description: Internal Server Error
+    patch:
+        security:
+            - Bearer: []
+        tags:
+            - Account
+        summary: Update Account
+        description: Updates the title and description of an account
+        parameters:
+            - in: header
+              name: Authorization
+              description: Attach Bearer JWT token
+              required: true
+              type: string
+            - in: body
+              name: body
+              description: Update Account Request. If either title or description is not provided, the existing value will be used.
+              required: true
+              schema:
+                  type: object
+                  properties:
+                    account_id:
+                      type: string
+                    title:
+                      type: string
+                    description:
+                      type: string
+        produces:
+            - application/json
+        responses:
+            '200':
+              description: Successful operation
+              schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                    data:
+                      $ref: '#/definitions/Account'
+            '400':
+              description: Bad Request
+            '401':
+              description: Unauthorized
+            '500':
+              description: Internal Server Error
+    delete:
+        security:
+            - Bearer: []
+        tags:
+            - Account
+        summary: Delete Account
+        description: Deletes an account
+        parameters:
+            - in: header
+              name: Authorization
+              description: Attach Bearer JWT token
+              required: true
+              type: string
+            - in: query
+              name: account_id
+              description: Account ID
+              required: true
+              type: string
+        produces:
+            - application/json
+        responses:
+            '200':
+              description: Successful operation
+              schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
             '400':
               description: Bad Request
             '401':
@@ -110,7 +193,12 @@ paths:
             '200':
               description: Successful operation
               schema:
-                  $ref: '#/definitions/Category'
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                    data:
+                      $ref: '#/definitions/Category'
             '400':
               description: Bad Request
             '401':
@@ -149,7 +237,43 @@ paths:
           description: Unauthorized
         '500':
           description: Internal Server Error
-  /account/history:
+    post:
+        security:
+            - Bearer: []
+        tags:
+            - User Module
+        summary: Create Transaction
+        description: Creates a new transaction
+        parameters:
+            - in: header
+              name: Authorization
+              description: Attach Bearer JWT token
+              required: true
+              type: string
+            - in: body
+              name: body
+              description: Create Transaction Request
+              required: true
+              schema:
+                  $ref: '#/definitions/CreateTransactionRequest'
+        produces:
+            - application/json
+        responses:
+            '200':
+              description: Successful operation
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/definitions/TransactionHistory'
+            '400':
+              description: Bad Request
+            '401':
+              description: Unauthorized
+            '500':
+              description: Internal Server Error
     patch:
       security:
         - Bearer: [ ]
@@ -262,4 +386,21 @@ definitions:
       category_id:
         type: string
       transactionType:
+        type: string
+  CreateTransactionRequest:
+    type: object
+    properties:
+      account_id:
+        type: string
+      amount:
+        type: number
+      currency:
+        type: string
+      type:
+        type: string
+      description:
+        type: string
+      notes:
+        type: string
+      category_id:
         type: string
